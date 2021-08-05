@@ -26,7 +26,7 @@ func OpenURI( uri_string string ) ( result string ) {
 			time.Sleep( 300 * time.Millisecond )
 			adb.PressButtonSequence( 23 )
 			time.Sleep( 1500 * time.Millisecond )
-	s	}
+		}
 		fmt.Println( distance_from_profile_selection_screen )
 	}).Catch(func(e try.E) {
 	})
