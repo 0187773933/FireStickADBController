@@ -3,7 +3,6 @@ package disney
 import (
 	"fmt"
 	"time"
-	"strconv"
 	try "github.com/manucorporat/try"
 	adb "github.com/0187773933/ADBWrapper/v1/wrapper"
 )
@@ -15,10 +14,12 @@ func OpenURI( uri_string string ) ( result string ) {
 		"192.168.1.120" ,
 		"5555" ,
 	)
+	fmt.Printf( "Opening === %s\n" , uri_string )
+	result = adb.OpenURI( uri_string )
+	time.Sleep( 3 * time.Second )
 	try.This(func() {
 		distance_from_profile_selection_screen := adb.CurrentScreenSimilarityToReferenceImage( "/Users/morpheous/WORKSPACE/GO/FireStickADBController/v1/disney/images/profile_selection.png" )
-		distance_from_profile_selection_screen_float , _ := strconv.ParseFloat( distance_from_profile_selection_screen , 64 )
-		if distance_from_profile_selection_screen_float < 3.0 {
+		if distance_from_profile_selection_screen < 3.0 {
 			fmt.Println( "on profile selection screen" )
 			adb.PressButtonSequence( 21 , 21 , 21 , 21 , 21 , 21 , 21 , 21 , 21 )
 			time.Sleep( 300 * time.Millisecond )
@@ -29,8 +30,7 @@ func OpenURI( uri_string string ) ( result string ) {
 		}
 		fmt.Println( distance_from_profile_selection_screen )
 	}).Catch(func(e try.E) {
+		fmt.Println( "disney blocked screenshots" )
 	})
-	result = adb.OpenURI( uri_string )
-	// adb.Screenshot() // monkaS
 	return
 }
